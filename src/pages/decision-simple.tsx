@@ -122,6 +122,7 @@ export const DecisionSimplePage: React.FC = () => {
         checkCyclic();
 
         const json = JSON.stringify({ contentType: DocumentFileTypes.Decision, ...graph }, null, 2);
+        //PUT API call here to update the graph with body as json  
         await writable.write(json);
         message.success('File saved');
       } catch (e) {
