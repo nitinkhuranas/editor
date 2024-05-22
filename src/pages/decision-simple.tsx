@@ -34,8 +34,9 @@ export const DecisionSimplePage: React.FC = () => {
   const [fileName, setFileName] = useState('Untitled Decision');
   const [graphTrace, setGraphTrace] = useState<Simulation>();
 
-  //make an api call here and set the graph fetched. Here is a sample example from save templates
+  
   useEffect(() => {
+    //GET api call here for given id and set the graph fetched. Here i am using the hardcoded graph template for demo purpose
     setGraph(decisionTemplates['company-analysis'])
   }, [])
 
