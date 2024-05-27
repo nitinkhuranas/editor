@@ -4,7 +4,7 @@ import { BulbOutlined, CheckOutlined, PlayCircleOutlined } from '@ant-design/ico
 import { decisionTemplates } from '../assets/decision-templates';
 import { displayError } from '../helpers/error-message.ts';
 import { DecisionContent, DecisionEdge, DecisionNode } from '../helpers/graph.ts';
-import { useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { DecisionGraph, DecisionGraphRef, GraphSimulator, Simulation } from '@gorules/jdm-editor';
 import { PageHeader } from '../components/page-header.tsx';
 import { DirectedGraph } from 'graphology';
@@ -29,10 +29,24 @@ export const DecisionSimplePage: React.FC = () => {
   const { themePreference, setThemePreference } = useTheme();
 
   const [searchParams] = useSearchParams();
+  const { ruleId } = useParams();
   const [fileHandle, setFileHandle] = useState<FileSystemFileHandle>();
   const [graph, setGraph] = useState<DecisionContent>({ nodes: [], edges: [] });
   const [fileName, setFileName] = useState('Untitled Decision');
   const [graphTrace, setGraphTrace] = useState<Simulation>();
+
+  
+  useEffect(() => {
+    console.log('ruleId', ruleId);
+    if (ruleId) {
+      //GET api call here for given ruleId and set the graph fetched.
+      // const res = await fetch("url/id");;
+      //const graph = await res.json();
+      //setGraph(graph)
+      // Here i am using the hardcoded graph template for demo purpose
+      setGraph(decisionTemplates['company-analysis'])
+    }
+  }, [ruleId])
 
   useEffect(() => {
     const templateParam = searchParams.get('template');
@@ -117,6 +131,7 @@ export const DecisionSimplePage: React.FC = () => {
         checkCyclic();
 
         const json = JSON.stringify({ contentType: DocumentFileTypes.Decision, ...graph }, null, 2);
+        //PUT API call here to update the graph with body as json  
         await writable.write(json);
         message.success('File saved');
       } catch (e) {
