@@ -22,7 +22,7 @@ import { ThemeContextProvider } from './context/theme.provider.tsx';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/:ruleId?',
     element: <DecisionSimplePage />,
   },
   {
